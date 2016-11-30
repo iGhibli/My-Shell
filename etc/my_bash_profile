@@ -1,0 +1,118 @@
+# .bash_profile file
+# By Balaji S. Srinivasan (balajis@stanford.edu)
+#
+# Concepts:
+# http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html
+#
+#    1) .bashrc is the *non-login* config for bash, run in scripts and after
+#        first connection.
+#
+#    2) .bash_profile is the *login* config for bash, launched upon first
+#        connection (in Ubuntu)
+#
+#    3) .bash_profile imports .bashrc in our script, but not vice versa.
+#
+#    4) .bashrc imports .bashrc_custom in our script, which can be used to
+#        override variables specified here.
+#
+# When using GNU screen:
+#
+#    1) .bash_profile is loaded the first time you login, and should be used
+#       only for paths and environmental settings
+
+#    2) .bashrc is loaded in each subsequent screen, and should be used for
+#       aliases and things like writing to .bash_eternal_history (see below)
+#
+# Do 'man bashrc' for the long version or see here:
+# http://en.wikipedia.org/wiki/Bash#Startup_scripts
+#
+# When Bash starts, it executes the commands in a variety of different scripts.
+#
+#   1) When Bash is invoked as an interactive login shell, it first reads
+#      and executes commands from the file /etc/profile, if that file
+#      exists. After reading that file, it looks for ~/.bash_profile,
+#      ~/.bash_login, and ~/.profile, in that order, and reads and executes
+#      commands from the first one that exists and is readable.
+#
+#   2) When a login shell exits, Bash reads and executes commands from the
+#      file ~/.bash_logout, if it exists.
+#
+#   3) When an interactive shell that is not a login shell is started
+#      (e.g. a GNU screen session), Bash reads and executes commands from
+#      ~/.bashrc, if that file exists. This may be inhibited by using the
+#      --norc option. The --rcfile file option will force Bash to read and
+#      execute commands from file instead of ~/.bashrc.
+
+## -----------------------
+## -- 1) Import .bashrc --
+## -----------------------
+
+# Factor out all repeated profile initialization into .bashrc
+#  - All non-login shell parameters go there
+#  - All declarations repeated for each screen session go there
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
+
+# Configure PATH
+#  - These are line by line so that you can kill one without affecting the others.
+#  - Lowest priority first, highest priority last.
+export PATH=$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=/usr/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=/usr/local/heroku/bin:$PATH # Heroku: https://toolbelt.heroku.com/standalone
+export PATH=/usr/local/php5-7.0.12-20161101-102255/bin:$PATH;
+export GOPATH=/Users/saichi/go
+
+##
+# Your previous /Users/saichi/.bash_profile file was backed up as /Users/saichi/.bash_profile.macports-saved_2016-11-23_at_11:58:56
+##
+
+# MacPorts Installer addition on 2016-11-23_at_11:58:56: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+# add by quick-cocos2d-x setup, DATE: 2016-11-28 TIME: 18:56:17
+export QUICK_V3_ROOT=`cat ~/.QUICK_V3_ROOT`
+
+# My Custom setup.
+# Created by iGhibli on 16/11/29.
+# Copyright © 2016年 iGhibli. All rights reserved.
+
+# File display colors.
+export CLICOLOR=1
+export LSCOLORS=gxfxcxdxbxegedabagacad
+
+# PS1="\[\e[1;31m\]➜  \[\e[35;40m\]\W\[\e[0m\] \[\e[33;40m\]"
+PS1="\`if [ \$? = 0 ]; then echo   \[\e[40\;32\;5\;1m\]➜  \[\e[0m\]; else echo \[\e[40\;31\;5\;1m\]➜  \[\e[0m\];   fi\` \[\e[36;40;5;1m\]\w\[\e[0m\]  \[\e[33;40;5;1m\]"
+
+# My custom shortcut key.
+# cmd
+alias /bash="chsh -s /bin/bash"
+alias /zsh="chsh -s /bin/zsh"
+alias ll="ls -alrtF"
+alias la="ls -A"
+alias cl="clear"
+
+# git
+alias gs="git status"
+alias ga="git add ."
+alias gcm="git commit -m"
+alias gp="git push origin master"
+alias gl="git lg"
+alias glog="git log"
+
+# svn
+alias ss="svn status"
+alias su="svn update"
+alias scm="svn commit -m"
+alias sl="svn log"
+
+# directory
+alias fishing='cd /Users/saichi/Desktop/quick-Fishing/trunk'
+alias gocode='cd /Users/saichi/Documents/gocode/trunk'
+alias auto='cd /Users/saichi/Documents/Projects/quick-Auto'
+alias community='cd /Users/saichi/Documents/Projects/quick-Community'
+alias shell='cd /Users/saichi/Documents/Projects/My-Shell'
